@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina & Glow - Blog de Beleza & Autocuidado</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fff5f7',
+                            100: '#fedee6',
+                            200: '#fcc3d2',
+                            300: '#f998b3',
+                            400: '#f4618a',
+                            500: '#e83969',
+                            600: '#d21b50',
+                            700: '#b0103e',
+                            800: '#921138',
+                            900: '#7b1233',
+                        },
+                        cream: '#FAF6F0',
+                        rosewood: '#4A2E35',
+                        sand: '#EFE7DE'
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        script: ['"Alex Brush"', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FAF6F0;
+            color: #33272A;
+            scroll-behavior: smooth;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .font-script {
+            font-family: 'Alex Brush', cursive;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF6F0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f998b3;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e83969;
+        }
+
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 ease-in-out bg-rosewood text-white px-5 py-3 rounded-2xl shadow-xl flex items-center space-x-3 pointer-events-none">
+        <i id="toast-icon" class="fas font-solid fa-check-circle text-brand-300 text-lg"></i>
+        <span id="toast-message" class="text-sm font-medium">Ação realizada com sucesso!</span>
+    </div>
+
+    <!-- Header & Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-brand-100 transition-all duration-300">
+        <!-- Top Announcement Bar -->
+        <div class="bg-brand-500 text-white text-xs py-1.5 px-4 text-center font-medium tracking-wide">
+            ✨ Receba dicas exclusivas semanais no seu e-mail! Inscreva-se no nosso clube de beleza.
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <a href="#" onclick="resetFilters()" class="flex items-center space-x-2 group">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-400 to-brand-200 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-sparkles text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="font-serif text-2xl sm:text-3xl font-bold text-rosewood tracking-tight">Lumina <span class="text-brand-500">&</span> Glow</span>
+                        <span class="block text-[10px] text-brand-700 tracking-widest uppercase font-semibold">Beleza & Autocuidado</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-rosewood/80">
+                    <button onclick="scrollToSection('hero-section')" class="nav-link hover:text-brand-500 transition-colors py-1 border-b-2 border-transparent hover:border-brand-500 font-semibold">Início</button>
+                    <button onclick="filterCategory('Skincare'); scrollToSection('posts-section');" class="nav-link hover:text-brand-500 transition-colors py-1">Skincare</button>
+                    <button onclick="scrollToSection('top-products-section')" class="nav-link text-brand-600 hover:text-brand-700 font-bold transition-colors py-1 flex items-center gap-1">
+                        <i class="fa-solid fa-award text-amber-500"></i> Top Produtos 2025/2026
+                    </button>
+                    <button onclick="filterCategory('Cabelos'); scrollToSection('posts-section');" class="nav-link hover:text-brand-500 transition-colors py-1">Cabelos</button>
+                    <button onclick="filterCategory('Maquiagem'); scrollToSection('posts-section');" class="nav-link hover:text-brand-500 transition-colors py-1">Maquiagem</button>
+                    <button onclick="filterCategory('Bem-Estar'); scrollToSection('posts-section');" class="nav-link hover:text-brand-500 transition-colors py-1">Bem-Estar</button>
+                    <button onclick="scrollToSection('quiz-section')" class="text-brand-600 hover:text-brand-700 font-semibold bg-brand-100/70 hover:bg-brand-100 px-3.5 py-1.5 rounded-full transition-all flex items-center">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i> Quiz Rotina
+                    </button>
+                </nav>
+
+                <!-- Search & Actions -->
+                <div class="flex items-center space-x-3">
+                    <div class="relative hidden sm:block">
+                        <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Buscar dicas, produtos..." class="w-48 lg:w-64 bg-white/80 border border-brand-200 rounded-full py-2 pl-9 pr-4 text-xs focus:outline-none focus:ring-2 focus:ring-brand-400 focus:bg-white transition-all text-rosewood placeholder-rosewood/40">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-rosewood/40"></i>
+                    </div>
+
+                    <!-- Saved Posts Bookmark Button -->
+                    <button onclick="toggleBookmarksModal()" class="relative p-2.5 rounded-full bg-white border border-brand-200 text-rosewood hover:text-brand-500 hover:border-brand-300 transition-all shadow-sm" title="Artigos Salvos">
+                        <i class="fa-regular fa-bookmark text-base"></i>
+                        <span id="saved-count" class="absolute -top-1 -right-1 bg-brand-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-rosewood hover:bg-brand-100 transition-colors">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-cream border-b border-brand-200 px-4 pt-2 pb-6 space-y-3">
+            <div class="relative mt-2">
+                <input type="text" id="search-input-mobile" onkeyup="handleSearchMobile()" placeholder="Buscar dicas..." class="w-full bg-white border border-brand-200 rounded-full py-2 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-brand-400">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-xs text-rosewood/40"></i>
+            </div>
+            <div class="flex flex-col space-y-2 text-sm font-medium pt-2">
+                <button onclick="filterCategory('Todos'); scrollToSection('hero-section'); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg hover:bg-brand-100 text-rosewood font-semibold">Início</button>
+                <button onclick="scrollToSection('top-products-section'); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg hover:bg-brand-100 text-brand-700 font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-award text-amber-500"></i> Top Produtos Faciais (2025/2026)
+                </button>
+                <button onclick="filterCategory('Skincare'); scrollToSection('posts-section'); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg hover:bg-brand-100 text-rosewood">Skincare</button>
+                <button onclick="filterCategory('Cabelos'); scrollToSection('posts-section'); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg hover:bg-brand-100 text-rosewood">Cabelos</button>
+                <button onclick="filterCategory('Maquiagem'); scrollToSection('posts-section'); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg hover:bg-brand-100 text-rosewood">Maquiagem</button>
+                <button onclick="filterCategory('Bem-Estar'); scrollToSection('posts-section'); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg hover:bg-brand-100 text-rosewood">Bem-Estar</button>
+                <button onclick="scrollToSection('quiz-section'); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg bg-brand-100 text-brand-700 font-semibold">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Quiz de Rotina
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow">
+        
+        <!-- Hero Section / Featured Article -->
+        <section id="hero-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+            <div class="relative bg-white rounded-3xl overflow-hidden shadow-xl border border-brand-100 grid md:grid-cols-12 gap-0 group">
+                <div class="md:col-span-7 relative h-72 md:h-auto overflow-hidden">
+                    <img id="hero-image" src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=1200" alt="Skincare Destaque" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent md:hidden"></div>
+                    <span class="absolute top-4 left-4 bg-brand-500 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-md">
+                        <i class="fa-solid fa-star mr-1 text-yellow-300"></i> Destaque do Mês
+                    </span>
+                </div>
+                <div class="md:col-span-5 p-6 sm:p-8 lg:p-10 flex flex-col justify-center bg-gradient-to-br from-white via-cream/50 to-brand-50/30">
+                    <div class="flex items-center space-x-3 text-xs text-rosewood/60 font-medium mb-3">
+                        <span class="bg-brand-100 text-brand-700 font-semibold px-2.5 py-0.5 rounded-md">Skincare</span>
+                        <span>•</span>
+                        <span><i class="fa-regular fa-clock mr-1"></i> 6 min de leitura</span>
+                    </div>
+                    <h1 id="hero-title" class="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-rosewood leading-tight mb-4 hover:text-brand-600 transition-colors cursor-pointer" onclick="openPostModal(1)">
+                        Guia Definitivo: Como Construir uma Rotina de Skincare Minimalista e Eficiente
+                    </h1>
+                    <p id="hero-excerpt" class="text-rosewood/70 text-sm sm:text-base line-clamp-3 mb-6 font-normal">
+                        Você não precisa de 10 passos para ter uma pele radiante e saudável. Descubra os ativos essenciais que realmente funcionam e como combiná-los para potencializar seus resultados todos os dias.
+                    </p>
+                    <div class="flex items-center justify-between mt-auto pt-4 border-t border-brand-100">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150" alt="Dra. Camila Rocha" class="w-10 h-10 rounded-full object-cover ring-2 ring-brand-300">
+                            <div>
+                                <h4 class="text-xs font-bold text-rosewood">Dra. Camila Rocha</h4>
+                                <p class="text-[11px] text-rosewood/50">Dermatologista & Editora</p>
+                            </div>
+                        </div>
+                        <button onclick="openPostModal(1)" class="inline-flex items-center space-x-2 text-xs font-bold text-white bg-brand-500 hover:bg-brand-600 px-4 py-2.5 rounded-full shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+                            <span>Ler Artigo</span>
+                            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Filter Bar -->
+        <section id="categories-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-serif text-xl sm:text-2xl font-bold text-rosewood">Explorar por Categoria</h3>
+                <span id="posts-counter" class="text-xs text-rosewood/60 font-medium">Exibindo todos os artigos</span>
+            </div>
+            
+            <div class="flex items-center space-x-2 sm:space-x-3 overflow-x-auto pb-3 scrollbar-none text-xs sm:text-sm">
+                <button onclick="filterCategory('Todos')" class="category-btn active bg-brand-500 text-white font-semibold px-5 py-2.5 rounded-full shadow-sm whitespace-nowrap transition-all hover:opacity-90">
+                    <i class="fa-solid fa-sparkles mr-1.5"></i> Todos
+                </button>
+                <button onclick="filterCategory('Skincare')" class="category-btn bg-white hover:bg-brand-100 text-rosewood font-medium px-5 py-2.5 rounded-full border border-brand-200 whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-droplet text-brand-400 mr-1.5"></i> Skincare
+                </button>
+                <button onclick="filterCategory('Cabelos')" class="category-btn bg-white hover:bg-brand-100 text-rosewood font-medium px-5 py-2.5 rounded-full border border-brand-200 whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-wind text-brand-400 mr-1.5"></i> Cabelos
+                </button>
+                <button onclick="filterCategory('Maquiagem')" class="category-btn bg-white hover:bg-brand-100 text-rosewood font-medium px-5 py-2.5 rounded-full border border-brand-200 whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-wand-magic-sparkles text-brand-400 mr-1.5"></i> Maquiagem
+                </button>
+                <button onclick="filterCategory('Dicas Caseiras')" class="category-btn bg-white hover:bg-brand-100 text-rosewood font-medium px-5 py-2.5 rounded-full border border-brand-200 whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-seedling text-brand-400 mr-1.5"></i> Dicas Caseiras
+                </button>
+                <button onclick="filterCategory('Bem-Estar')" class="category-btn bg-white hover:bg-brand-100 text-rosewood font-medium px-5 py-2.5 rounded-full border border-brand-200 whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-heart-pulse text-brand-400 mr-1.5"></i> Bem-Estar
+                </button>
+            </div>
+        </section>
+
+        <!-- Blog Posts Grid -->
+        <section id="posts-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 mb-12">
+            <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Posts dynamic insertion via Javascript -->
+            </div>
+
+            <!-- Empty State Container -->
+            <div id="no-results" class="hidden text-center py-16 bg-white/60 rounded-3xl border border-dashed border-brand-200 my-8">
+                <div class="w-16 h-16 bg-brand-100 text-brand-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <h3 class="font-serif text-xl font-bold text-rosewood mb-2">Nenhum artigo encontrado</h3>
+                <p class="text-rosewood/60 text-sm mb-6 max-w-md mx-auto">Tente buscar por outros termos ou selecione uma categoria diferente.</p>
+                <button onclick="resetFilters()" class="bg-brand-500 text-white font-semibold text-xs px-5 py-2.5 rounded-full hover:bg-brand-600 transition-all">
+                    Ver todos os artigos
+                </button>
+            </div>
+        </section>
+
+        <!-- Best Skincare Products (2025-2026) Based on Dermatological Research -->
+        <section id="top-products-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 my-6 bg-gradient-to-b from-brand-50/50 via-white to-brand-50/30 rounded-3xl border border-brand-100 shadow-sm">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="inline-flex items-center gap-1.5 bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider mb-3">
+                    <i class="fa-solid fa-microscope text-amber-600"></i> Dossiê de Ciência Cutânea
+                </span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-rosewood mb-3">Os Melhores Produtos Faciais (2025 – 2026)</h2>
+                <p class="text-rosewood/70 text-sm sm:text-base">
+                    Seleção dos dermocosméticos de alta performance mais premiados no mundo e aclamados por estudos dermatológicos clínicos (JAAD, Dermatologic Therapy e testes in-vivo) nos últimos 2 anos.
+                </p>
+
+                <!-- Product Filter Tabs -->
+                <div class="flex flex-wrap justify-center gap-2 mt-6">
+                    <button onclick="filterProducts('todos')" class="product-tab active-tab bg-rosewood text-white px-4 py-1.5 rounded-full text-xs font-semibold shadow-sm transition-all">Todos os Premiados</button>
+                    <button onclick="filterProducts('serum')" class="product-tab bg-white text-rosewood hover:bg-brand-100 border border-brand-200 px-4 py-1.5 rounded-full text-xs font-semibold transition-all">Séruns & Tratamento</button>
+                    <button onclick="filterProducts('protetor')" class="product-tab bg-white text-rosewood hover:bg-brand-100 border border-brand-200 px-4 py-1.5 rounded-full text-xs font-semibold transition-all">Filtros Solares</button>
+                    <button onclick="filterProducts('limpeza')" class="product-tab bg-white text-rosewood hover:bg-brand-100 border border-brand-200 px-4 py-1.5 rounded-full text-xs font-semibold transition-all">Limpeza & Hidratação</button>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Injected via JavaScript -->
+            </div>
+        </section>
+
+        <!-- Interactive Quiz Section: Skincare Routine Finder -->
+        <section id="quiz-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 my-8">
+            <div class="bg-gradient-to-r from-rosewood via-rosewood to-brand-900 rounded-3xl text-white p-6 sm:p-10 lg:p-12 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-brand-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-10 -top-10 w-64 h-64 bg-brand-300/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="max-w-3xl mx-auto text-center relative z-10">
+                    <span class="inline-block bg-brand-500/30 text-brand-200 border border-brand-400/30 text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-widest mb-4">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i> Quiz Interativo
+                    </span>
+                    <h2 class="font-serif text-2xl sm:text-4xl font-bold mb-4">Descubra sua Rotina de Beleza Ideal</h2>
+                    <p class="text-cream/80 text-sm sm:text-base mb-8">Responda a 2 perguntas rápidas para receber recomendações personalizadas para o seu tipo de pele.</p>
+
+                    <!-- Quiz Box -->
+                    <div id="quiz-container" class="bg-white/10 backdrop-blur-md border border-white/20 p-6 sm:p-8 rounded-2xl text-left shadow-lg">
+                        
+                        <!-- Step 1 -->
+                        <div id="quiz-step-1">
+                            <span class="text-xs font-bold text-brand-300 uppercase tracking-wider block mb-2">Passo 1 de 2</span>
+                            <h3 class="text-lg font-semibold text-white mb-4">Como você sente sua pele na maior parte do dia?</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <button onclick="selectQuizOption('skin', 'oleosa')" class="quiz-btn bg-white/10 hover:bg-white/20 border border-white/20 p-3.5 rounded-xl text-left text-sm font-medium transition-all flex items-center justify-between">
+                                    <span><i class="fa-solid fa-droplet text-brand-300 mr-2"></i> Oleosa ou com brilho excessivo</span>
+                                    <i class="fa-solid fa-chevron-right text-xs opacity-60"></i>
+                                </button>
+                                <button onclick="selectQuizOption('skin', 'seca')" class="quiz-btn bg-white/10 hover:bg-white/20 border border-white/20 p-3.5 rounded-xl text-left text-sm font-medium transition-all flex items-center justify-between">
+                                    <span><i class="fa-solid fa-sun text-brand-300 mr-2"></i> Seca ou repuxando</span>
+                                    <i class="fa-solid fa-chevron-right text-xs opacity-60"></i>
+                                </button>
+                                <button onclick="selectQuizOption('skin', 'mista')" class="quiz-btn bg-white/10 hover:bg-white/20 border border-white/20 p-3.5 rounded-xl text-left text-sm font-medium transition-all flex items-center justify-between">
+                                    <span><i class="fa-solid fa-circle-half-stroke text-brand-300 mr-2"></i> Mista (oleosa na zona T)</span>
+                                    <i class="fa-solid fa-chevron-right text-xs opacity-60"></i>
+                                </button>
+                                <button onclick="selectQuizOption('skin', 'sensivel')" class="quiz-btn bg-white/10 hover:bg-white/20 border border-white/20 p-3.5 rounded-xl text-left text-sm font-medium transition-all flex items-center justify-between">
+                                    <span><i class="fa-solid fa-feather text-brand-300 mr-2"></i> Sensível ou com vermelhidão</span>
+                                    <i class="fa-solid fa-chevron-right text-xs opacity-60"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div id="quiz-step-2" class="hidden">
+                            <span class="text-xs font-bold text-brand-300 uppercase tracking-wider block mb-2">Passo 2 de 2</span>
+                            <h3 class="text-lg font-semibold text-white mb-4">Qual é o seu objetivo principal no momento?</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <button onclick="finishQuiz('luminosidade')" class="quiz-btn bg-white/10 hover:bg-white/20 border border-white/20 p-3.5 rounded-xl text-left text-sm font-medium transition-all flex items-center justify-between">
+                                    <span>✨ Iluminar e uniformizar o tom</span>
+                                    <i class="fa-solid fa-chevron-right text-xs opacity-60"></i>
+                                </button>
+                                <button onclick="finishQuiz('acne')" class="quiz-btn bg-white/10 hover:bg-white/20 border border-white/20 p-3.5 rounded-xl text-left text-sm font-medium transition-all flex items-center justify-between">
+                                    <span>🌿 Controlar acnes e poros visíveis</span>
+                                    <i class="fa-solid fa-chevron-right text-xs opacity-60"></i>
+                                </button>
+                                <button onclick="finishQuiz('antiidade')" class="quiz-btn bg-white/10 hover:bg-white/20 border border-white/20 p-3.5 rounded-xl text-left text-sm font-medium transition-all flex items-center justify-between">
+                                    <span>🌺 Prevenir linhas e firmeza</span>
+                                    <i class="fa-solid fa-chevron-right text-xs opacity-60"></i>
+                                </button>
+                                <button onclick="finishQuiz('hidratacao')" class="quiz-btn bg-white/10 hover:bg-white/20 border border-white/20 p-3.5 rounded-xl text-left text-sm font-medium transition-all flex items-center justify-between">
+                                    <span>💧 Hidratação profunda e barreira</span>
+                                    <i class="fa-solid fa-chevron-right text-xs opacity-60"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Result -->
+                        <div id="quiz-result" class="hidden text-center py-4">
+                            <div class="w-12 h-12 bg-brand-500 rounded-full flex items-center justify-center mx-auto mb-3 text-white text-xl shadow-lg">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <h3 id="quiz-result-title" class="font-serif text-2xl font-bold text-white mb-2">Sua Rotina Recomendada!</h3>
+                            <p id="quiz-result-text" class="text-cream/90 text-sm mb-6 max-w-lg mx-auto">Recomendamos focar em produtos com Niacinamida e Ácido Hialurônico de textura leve.</p>
+                            
+                            <div class="flex flex-wrap justify-center gap-3">
+                                <button onclick="openRecommendedArticle()" class="bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs px-5 py-3 rounded-full transition-all shadow-md">
+                                    <i class="fa-solid fa-book-open mr-1.5"></i> Ler Artigo Recomendado
+                                </button>
+                                <button onclick="restartQuiz()" class="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-4 py-3 rounded-full transition-all border border-white/20">
+                                    Refazer Quiz
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Subscription Section -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 my-6">
+            <div class="bg-brand-100/60 rounded-3xl p-8 sm:p-12 border border-brand-200 text-center relative overflow-hidden">
+                <div class="max-w-2xl mx-auto relative z-10">
+                    <span class="font-script text-3xl sm:text-4xl text-brand-600 block mb-1">Junte-se à nossa comunidade</span>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-rosewood mb-3">Sua dose semanal de Glow direto no e-mail</h2>
+                    <p class="text-rosewood/70 text-sm mb-6">Assine nossa newsletter e receba segredos de beleza, receitas caseiras testadas e resenhas honestas de produtos todas as quintas-feiras.</p>
+                    
+                    <form onsubmit="handleNewsletter(event)" class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
+                        <input type="email" id="newsletter-email" required placeholder="Digite seu melhor e-mail..." class="w-full sm:w-72 px-4 py-3 rounded-full border border-brand-200 text-xs focus:outline-none focus:ring-2 focus:ring-brand-400 text-rosewood placeholder-rosewood/40">
+                        <button type="submit" class="w-full sm:w-auto bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs px-6 py-3 rounded-full transition-all shadow-md whitespace-nowrap">
+                            Inscrever-se <i class="fa-solid fa-paper-plane ml-1"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Product Detail Modal -->
+    <div id="product-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative border border-brand-100 max-h-[90vh] overflow-y-auto">
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-brand-50 text-rosewood hover:bg-brand-100 flex items-center justify-center transition-all">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="product-modal-content">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Full Article Modal View -->
+    <div id="post-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative border border-brand-100 flex flex-col">
+            
+            <!-- Close Button -->
+            <button onclick="closePostModal()" class="sticky top-4 right-4 ml-auto mr-4 z-20 w-10 h-10 rounded-full bg-white/80 hover:bg-white text-rosewood shadow-md flex items-center justify-center transition-all border border-brand-200">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <!-- Modal Content (Dynamically injected) -->
+            <div id="modal-content-body" class="p-6 sm:p-10 -mt-10">
+                <!-- Content injected via JS -->
+            </div>
+            
+            <!-- Modal Footer Actions -->
+            <div class="sticky bottom-0 bg-cream/95 backdrop-blur border-t border-brand-200 p-4 px-6 flex items-center justify-between rounded-b-3xl">
+                <div class="flex items-center space-x-3">
+                    <button id="modal-like-btn" onclick="toggleModalLike()" class="flex items-center space-x-1.5 text-xs font-semibold px-4 py-2 rounded-full bg-white border border-brand-200 text-rosewood hover:text-brand-500 transition-all">
+                        <i class="fa-regular fa-heart text-sm"></i>
+                        <span id="modal-like-count">0</span>
+                    </button>
+                    <button id="modal-save-btn" onclick="toggleModalBookmark()" class="flex items-center space-x-1.5 text-xs font-semibold px-4 py-2 rounded-full bg-white border border-brand-200 text-rosewood hover:text-brand-500 transition-all">
+                        <i class="fa-regular fa-bookmark text-sm"></i>
+                        <span>Salvar</span>
+                    </button>
+                </div>
+                <button onclick="copyArticleLink()" class="text-xs font-semibold text-brand-600 hover:text-brand-700 flex items-center space-x-1.5">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    <span>Compartilhar</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Saved Posts Modal -->
+    <div id="bookmarks-modal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border border-brand-100">
+            <div class="flex items-center justify-between border-b border-brand-100 pb-4 mb-4">
+                <h3 class="font-serif text-xl font-bold text-rosewood flex items-center">
+                    <i class="fa-solid fa-bookmark text-brand-500 mr-2"></i> Artigos Salvos
+                </h3>
+                <button onclick="toggleBookmarksModal()" class="w-8 h-8 rounded-full bg-brand-50 text-rosewood hover:bg-brand-100 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div id="bookmarks-list" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+                <!-- Bookmarks listed via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-rosewood text-cream pt-14 pb-8 border-t border-brand-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-white/10">
+                
+                <!-- Brand Info -->
+                <div class="md:col-span-1">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center text-white text-sm">
+                            <i class="fa-solid fa-sparkles"></i>
+                        </div>
+                        <span class="font-serif text-2xl font-bold text-white tracking-tight">Lumina <span class="text-brand-300">&</span> Glow</span>
+                    </div>
+                    <p class="text-xs text-cream/70 leading-relaxed mb-4">
+                        Seu portal diário de beleza real, dicas práticas de cuidados com a pele, segredos capilares e bem-estar feminino.
+                    </p>
+                    <div class="flex space-x-3 text-cream/70 text-sm">
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-500 hover:text-white transition-all"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-500 hover:text-white transition-all"><i class="fa-brands fa-pinterest-p"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-500 hover:text-white transition-all"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-500 hover:text-white transition-all"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-serif font-bold text-white text-sm mb-4">Navegação</h4>
+                    <ul class="space-y-2 text-xs text-cream/70">
+                        <li><a href="#" onclick="filterCategory('Todos')" class="hover:text-brand-300 transition-colors">Início</a></li>
+                        <li><a href="#" onclick="filterCategory('Skincare')" class="hover:text-brand-300 transition-colors">Rotina de Skincare</a></li>
+                        <li><a href="#" onclick="filterCategory('Cabelos')" class="hover:text-brand-300 transition-colors">Cronograma Capilar</a></li>
+                        <li><a href="#" onclick="filterCategory('Maquiagem')" class="hover:text-brand-300 transition-colors">Tutoriais de Maquiagem</a></li>
+                        <li><a href="#quiz-section" class="hover:text-brand-300 transition-colors">Quiz de Beleza</a></li>
+                    </ul>
+                </div>
+
+                <!-- Categories -->
+                <div>
+                    <h4 class="font-serif font-bold text-white text-sm mb-4">Categorias</h4>
+                    <ul class="space-y-2 text-xs text-cream/70">
+                        <li><a href="#" onclick="filterCategory('Dicas Caseiras')" class="hover:text-brand-300 transition-colors">Receitas Naturais</a></li>
+                        <li><a href="#" onclick="filterCategory('Bem-Estar')" class="hover:text-brand-300 transition-colors">Autocuidado & Mindful</a></li>
+                        <li><a href="#" onclick="filterCategory('Skincare')" class="hover:text-brand-300 transition-colors">Ingredientes & Ativos</a></li>
+                        <li><a href="#" onclick="filterCategory('Maquiagem')" class="hover:text-brand-300 transition-colors">Tendências 2026</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal & Contact -->
+                <div>
+                    <h4 class="font-serif font-bold text-white text-sm mb-4">Sobre Nós</h4>
+                    <p class="text-xs text-cream/70 leading-relaxed mb-3">
+                        Conteúdo revisado por especialistas em estética e cosmetologia para garantir informações seguras e eficazes.
+                    </p>
+                    <div class="text-xs text-cream/50 space-y-1">
+                        <p>E-mail: contato@luminaglowblog.com.br</p>
+                        <p>São Paulo, SP - Brasil</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Copyright -->
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-cream/50">
+                <p>&copy; 2026 Lumina & Glow Blog. Todos os direitos reservados.</p>
+                <div class="flex space-x-4 mt-3 sm:mt-0">
+                    <a href="#" class="hover:text-cream transition-colors">Política de Privacidade</a>
+                    <a href="#" class="hover:text-cream transition-colors">Termos de Uso</a>
+                    <a href="#" class="hover:text-cream transition-colors">Anuncie Conosco</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Data and Logic -->
+    <script>
+        // Database of Top Science-Backed Facial Skincare Products (2025-2026)
+        const topProducts = [
+            {
+                id: 'prod-1',
+                category: 'serum',
+                name: 'Eucerin Anti-Pigment Dual Sérum',
+                brand: 'Eucerin',
+                award: 'Campeão em Uniformização 2025/2026',
+                rating: 4.9,
+                reviewsCount: 1420,
+                image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=600',
+                activeIngredients: 'Thiamidol® patenteado (Isobutylamido Thiazolyl Resorcinol) + Ácido Hialurônico Concentrado',
+                scientificSummary: 'Estudos clínicos duplo-cego demonstraram que o Thiamidol inibe a tirosinase humana na origem da melanogênese com eficácia superior à hidroquinona a 2%, sem causar hipopigmentação pós-inflamatória.',
+                indicatedFor: 'Hiperpigmentação, melasma, manchas de acne e tom irregular.',
+                howToUse: 'Aplicar no rosto limpo 2x ao dia antes do creme hidratante ou protetor solar.',
+                badge: 'Melhor Anti-Manchas'
+            },
+            {
+                id: 'prod-2',
+                category: 'protetor',
+                name: 'La Roche-Posay Anthelios UVmune 400 Fluid FPS 60',
+                brand: 'La Roche-Posay',
+                award: 'Revolução da Fotoproteção 2025',
+                rating: 4.95,
+                reviewsCount: 2890,
+                image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=600',
+                activeIngredients: 'Filtro Mexoryl 400 + Tecnologia Netlock + Água Termal',
+                scientificSummary: 'Formulado com o exclusivo filtro Mexoryl 400, que protege contra os raios UVA ultralongos (380nm–400nm) que penetram mais fundo na derme e danificam as fibras de colágeno. Textura ultrafluida de rápida absorção.',
+                indicatedFor: 'Todos os tipos de pele, incluindo peles sensíveis e propensas a alergias solares.',
+                howToUse: 'Agitar bem antes de usar. Aplicar generosamente 15 minutos antes da exposição ao sol e reaplicar a cada 3 horas.',
+                badge: 'FPS nº 1 Recomendado'
+            },
+            {
+                id: 'prod-3',
+                category: 'serum',
+                name: 'SkinCeuticals C E Ferulic',
+                brand: 'SkinCeuticals',
+                award: 'Padrão-Ouro Antioxidante',
+                rating: 5.0,
+                reviewsCount: 3100,
+                image: 'https://images.unsplash.com/photo-1608248597262-838d8f99a1f5?auto=format&fit=crop&q=80&w=600',
+                activeIngredients: '15% Vitamina C Pura (L-Ácido Ascórbico), 1% Vitamina E (Alfa-Tocoferol) e 0,5% Ácido Ferúlico',
+                scientificSummary: 'Formulação sob a patente de Duke (pH ácido < 3,5 e 15% concentração). Ensaios clínicos independentes demonstram neutralização de radicais livres de ozônio, poluição e radiação UV, aumentando em até 8x a defesa natural da pele.',
+                indicatedFor: 'Prevenção do envelhecimento, perda de firmeza e rugas finas.',
+                howToUse: 'Aplicar 4 a 5 gotas no rosto limpo e seco diariamente pela manhã.',
+                badge: 'Favorito de Dermatologistas'
+            },
+            {
+                id: 'prod-4',
+                category: 'limpeza',
+                name: 'CeraVe Gel de Limpeza Hidratante',
+                brand: 'CeraVe',
+                award: 'Melhor Limpeza de Barreira 2025',
+                rating: 4.8,
+                reviewsCount: 4500,
+                image: 'https://images.unsplash.com/photo-1556228722-d1191e479e09?auto=format&fit=crop&q=80&w=600',
+                activeIngredients: '3 Ceramidas Essenciais (1, 3, 6-II) + Ácido Hialurônico + Tecnologia MVE',
+                scientificSummary: 'Não desfatigante e sem sabão, remove sujidades enquanto deposita lipídios idênticos aos da pele no estrato córneo através da liberação prolongada MVE, reduzindo a perda de água transepidérmica (TEWL).',
+                indicatedFor: 'Peles normais a secas e sensibilizadas.',
+                howToUse: 'Massagear suavemente sobre a pele úmida de manhã e à noite. Enxaguar com água morna.',
+                badge: 'Essencial Diário'
+            },
+            {
+                id: 'prod-5',
+                category: 'limpeza',
+                name: 'Hada Labo Gokujyun Premium Lotion',
+                brand: 'Hada Labo',
+                award: 'Top Hidratação Multicamada',
+                rating: 4.9,
+                reviewsCount: 2100,
+                image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&q=80&w=600',
+                activeIngredients: '7 Variantes de Ácido Hialurônico com Pesos Moleculares Distintos',
+                scientificSummary: 'Com combinações de nano-hialurônico até formas de alto peso molecular e biofermentados, hidrata desde as camadas mais profundas até a superfície epidérmica sem pesar ou obstruir poros.',
+                indicatedFor: 'Desidratação intensa, falta de viço e linhas causadas por ressecamento.',
+                howToUse: 'Pressionar 3 a 4 gotas com as palmas das mãos no rosto ainda úmido.',
+                badge: 'Sensação J-Beauty'
+            },
+            {
+                id: 'prod-6',
+                category: 'serum',
+                name: 'Medik8 Crystal Retinal 3/6',
+                brand: 'Medik8',
+                award: 'Inovação em Retinóides 2025/2026',
+                rating: 4.88,
+                reviewsCount: 980,
+                image: 'https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&q=80&w=600',
+                activeIngredients: 'Retinaldeído Encapsulado (0.03% ou 0.06%) + Ácido Hialurônico + Vitamina E',
+                scientificSummary: 'O Retinaldeído requer apenas 1 etapa de conversão em Ácido Retinóico (contra 2 etapas do Retinol tradicional), agindo até 11 vezes mais rápido nas células com menor potencial de irritação graças à tecnologia de cristalização.',
+                indicatedFor: 'Rugas profundas, textura irregular e acne adulta.',
+                howToUse: 'Uso noturno. Começar 2x por semana e evoluir gradativamente segundo tolerabilidade.',
+                badge: 'Alta Performance'
+            }
+        ];
+
+        // Database of Blog Articles
+        const articles = [
+            {
+                id: 1,
+                title: "Guia Definitivo: Como Construir uma Rotina de Skincare Minimalista e Eficiente",
+                category: "Skincare",
+                readTime: "6 min",
+                date: "15 de Setembro, 2026",
+                author: "Dra. Camila Rocha",
+                authorRole: "Dermatologista & Editora",
+                authorImg: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150",
+                image: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=800",
+                excerpt: "Você não precisa de 10 passos para ter uma pele radiante e saudável. Descubra os ativos essenciais que realmente funcionam e como combiná-los para potencializar seus resultados todos os dias.",
+                likes: 245,
+                isLiked: false,
+                isSaved: false,
+                content: `
+                    <p class="text-rosewood/80 text-base leading-relaxed mb-4">A tendência da pele radiante trouxe também um excesso de produtos que muitas vezes causam o efeito oposto: irritação e comprometimento da barreira cutânea. A dermatologia moderna enfatiza o conceito do <strong>'Skinimalism'</strong>.</p>
+                    
+                    <h3 class="font-serif text-xl font-bold text-rosewood mt-6 mb-3">Os 3 pilares inegociáveis do Skincare:</h3>
+                    <ul class="list-disc list-inside space-y-2 text-rosewood/80 text-sm mb-6">
+                        <li><strong>Limpeza Suave:</strong> Sem agredir os lipídios naturais da pele.</li>
+                        <li><strong>Hidratação Inteligente:</strong> Ativos como Ácido Hialurônico, Ceramidas e Niacinamida.</li>
+                        <li><strong>Fotoproteção Diária:</strong> O verdadeiro segredo anti-idade comprovado cientificamente.</li>
+                    </ul>
+
+                    <div class="bg-brand-50 border-l-4 border-brand-400 p-4 rounded-r-xl mb-6">
+                        <p class="text-xs text-rosewood/90 italic">"Estudos publicados no Journal of the American Academy of Dermatology apontam que usar mais de 5 ativos concentrados simultaneamente aumenta o risco de dermatite de contato em até 40%."</p>
+                    </div>
+
+                    <p class="text-rosewood/80 text-sm leading-relaxed mb-4">A chave é entender o que seu tipo de pele necessita no momento. Peles oleosas se beneficiam imensamente de texturas em gel-creme com Niacinamida a 5%, enquanto peles secas necessitam de reposição lipídica com Ceramidas e Escualano.</p>
+                `
+            },
+            {
+                id: 2,
+                title: "Cronograma Capilar para Cabelos Danificados: O Passo a Passo Definitivo",
+                category: "Cabelos",
+                readTime: "8 min",
+                date: "12 de Setembro, 2026",
+                author: "Juliana Paes",
+                authorRole: "Tricologista",
+                authorImg: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=150",
+                image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=800",
+                excerpt: "Hidratação, Nutrição e Reconstrução: saiba exatamente do que seus fios precisam e aprenda a montar um calendário personalizado.",
+                likes: 189,
+                isLiked: false,
+                isSaved: false,
+                content: `
+                    <p class="text-rosewood/80 text-base leading-relaxed mb-4">Cabelos expostos a processos químicos, calor de secador e poluição perdem massa capilar e lipídios fundamentais. O cronograma capilar é uma agenda de tratamento estruturada.</p>
+
+                    <h3 class="font-serif text-xl font-bold text-rosewood mt-6 mb-3">Compreendendo as Etapas:</h3>
+                    <div class="space-y-4 mb-6">
+                        <div class="bg-white p-4 rounded-2xl border border-brand-100 shadow-sm">
+                            <h4 class="font-bold text-brand-600 text-sm mb-1">💧 1. Hidratação</h4>
+                            <p class="text-xs text-rosewood/70">Repõe a água do fio. Procure por ingredientes como D-Pantenol, Extrato de Aloe Vera, Glicerina Vegetal e Ácido Hialurônico.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl border border-brand-100 shadow-sm">
+                            <h4 class="font-bold text-brand-600 text-sm mb-1">🥑 2. Nutrição</h4>
+                            <p class="text-xs text-rosewood/70">Repõe os lipídios que devolvem o brilho e reduzem o frizz. Óleo de Argan, Óleo de Coco, Manteiga de Karité e Óleo de Abacate são excelentes.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl border border-brand-100 shadow-sm">
+                            <h4 class="font-bold text-brand-600 text-sm mb-1">🧱 3. Reconstrução</h4>
+                            <p class="text-xs text-rosewood/70">Devolve a proteína e massa à fibra fragilizada. Queratina Vegetal, Aminoácidos de Trigo e Colágeno são indispensáveis.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 3,
+                title: "Maquiagem 'No-Makeup': Como Conseguir uma Pele Perfeita e Natural em 10 Minutos",
+                category: "Maquiagem",
+                readTime: "5 min",
+                date: "10 de Setembro, 2026",
+                author: "Beatriz Lima",
+                authorRole: "Maquiadora Profissional",
+                authorImg: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=150",
+                image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&q=80&w=800",
+                excerpt: "O segredo para um visual radiante e 'acordei assim'. Técnicas simples de iluminação, corretivo e acabamento glow para o seu dia a dia.",
+                likes: 312,
+                isLiked: false,
+                isSaved: false,
+                content: `
+                    <p class="text-rosewood/80 text-base leading-relaxed mb-4">A maquiagem natural valoriza os seus traços em vez de cobri-los. A chave para este visual está no trabalho de preparação da pele e na escolha de produtos cremosos.</p>
+
+                    <h3 class="font-serif text-lg font-bold text-rosewood mt-4 mb-2">Passo a Passo Rápido:</h3>
+                    <ol class="list-decimal list-inside space-y-2 text-rosewood/80 text-sm mb-4">
+                        <li><strong>Hidratação Iluminadora:</strong> Misture uma gota de sérum hidratante na sua base leve ou BB Cream.</li>
+                        <li><strong>Corretivo Pontual:</strong> Aplique apenas onde realmente necessário (olheiras e pequenas marcas).</li>
+                        <li><strong>Blush Cremoso:</strong> Aplique nas maçãs do rosto com batidinhas para um rubor natural e viçoso.</li>
+                        <li><strong>Gel de Sobrancelhas:</strong> Penteie os fios para cima dando um efeito lifting imediato.</li>
+                    </ol>
+                `
+            },
+            {
+                id: 4,
+                title: "5 Máscaras Caseiras Naturais para Iluminar o Rosto no Fim de Semana",
+                category: "Dicas Caseiras",
+                readTime: "4 min",
+                date: "08 de Setembro, 2026",
+                author: "Clara Sampaio",
+                authorRole: "Naturopata",
+                authorImg: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150",
+                image: "https://images.unsplash.com/photo-1512290900673-7002004117b8?auto=format&fit=crop&q=80&w=800",
+                excerpt: "Receitas simples utilizando mel, aveia, iogurte e mamão para revitalizar a pele com ingredientes seguros que você tem na cozinha.",
+                likes: 180,
+                isLiked: false,
+                isSaved: false,
+                content: `
+                    <p class="text-rosewood/80 text-base leading-relaxed mb-4">Você não precisa gastar fortunas para ter um momento de spa em casa. Ingredientes naturais contêm enzimas e antioxidantes poderosos.</p>
+
+                    <h3 class="font-serif text-lg font-bold text-rosewood mt-4 mb-2">1. Máscara Iluminadora de Mamão & Mel</h3>
+                    <p class="text-xs text-rosewood/80 leading-relaxed mb-3">A papaína presente no mamão é uma enzima proteolítica que quebra pontes de queratina na camada mais superficial da pele, promovendo descamação enzimática suave sem atrito físico. Misture 2 colheres de mamão amassado com 1 colher de mel puro. Deixe agir por 15 minutos e enxágue.</p>
+
+                    <h3 class="font-serif text-lg font-bold text-rosewood mt-4 mb-2">2. Máscara Calmante de Aveia & Iogurte Natural</h3>
+                    <p class="text-xs text-rosewood/80 leading-relaxed">Ideal para peles sensibilizadas pelo sol ou poluição. O ácido lático do iogurte hidrata enquanto a aveia acalma a vermelhidão.</p>
+                `
+            },
+            {
+                id: 5,
+                title: "Ritual de Autocuidado Noturno: Como Melhorar o Sono e a Aparência da Pele",
+                category: "Bem-Estar",
+                readTime: "7 min",
+                date: "05 de Setembro, 2026",
+                author: "Dra. Camila Rocha",
+                authorRole: "Dermatologista & Editora",
+                authorImg: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150",
+                image: "https://images.unsplash.com/photo-1511295742362-92c96b124e52?auto=format&fit=crop&q=80&w=800",
+                excerpt: "O sono da beleza é real. Entenda como o hormônio melatonina e o relaxamento consciente aceleram a renovação celular noturna.",
+                likes: 310,
+                isLiked: false,
+                isSaved: false,
+                content: `
+                    <p class="text-rosewood/80 text-base leading-relaxed mb-4">Durante o sono profundo (estágios N3 e REM), o ritmo circadiano ativa o pico de mitose epidérmica e aumenta o fluxo microvascular cutâneo, estimulando a síntese endógena de colágeno e neutralizando o estresse oxidativo fotoinduzido.</p>
+
+                    <h3 class="font-serif text-xl font-bold text-rosewood mt-6 mb-3">Passos para o Seu Ritual Noturno:</h3>
+                    <ul class="list-disc list-inside space-y-2 text-rosewood/80 text-sm mb-4">
+                        <li><strong>Desligue as telas 45 min antes de dormir:</strong> A luz azul inibe a produção de melatonina.</li>
+                        <li><strong>Massagem Facial com Gua Sha ou Dedos:</strong> Estimula a drenagem linfática, reduzindo o inchaço matinal.</li>
+                        <li><strong>Aromaterapia com Óleo de Lavanda:</strong> Aplique duas gotas nos pulsos ou no travesseiro.</li>
+                    </ul>
+                `
+            },
+            {
+                id: 6,
+                title: "Niacinamida vs. Vitamina C: Qual Ativo Escolher para o Seu Tipo de Pele?",
+                category: "Skincare",
+                readTime: "5 min",
+                date: "01 de Setembro, 2026",
+                author: "Mariana Costa",
+                authorRole: "Cosmetóloga",
+                authorImg: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150",
+                image: "https://images.unsplash.com/photo-1608248597262-838d8f99a1f5?auto=format&fit=crop&q=80&w=800",
+                excerpt: "Dois dos ingredientes mais amados do mundo da beleza explicados de forma simples. Descubra qual é a melhor opção para suas necessidades.",
+                likes: 167,
+                isLiked: false,
+                isSaved: false,
+                content: `
+                    <p class="text-rosewood/80 text-base leading-relaxed mb-4">Ambos são respaldados por robusta literatura científica: a Niacinamida (5%) reduz a secreção sebácea e bloqueia a transferência de pigmentos, enquanto o L-Ácido Ascórbico (Vitamina C pura a 10-20%) neutraliza as espécies reativas de oxigênio (ROS) e estimula ativamente o colágeno tipo I e III.</p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-6">
+                        <div class="bg-white p-4 rounded-2xl border border-brand-200">
+                            <h4 class="font-bold text-brand-600 text-sm mb-2">🍊 Vitamina C</h4>
+                            <p class="text-xs text-rosewood/80 leading-relaxed">Foco principal: Aumentar o brilho/glow, combater radicais livres e estimular o colágeno. Excelente para aplicar pela manhã.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl border border-brand-200">
+                            <h4 class="font-bold text-brand-600 text-sm mb-2">💧 Niacinamida (Vit B3)</h4>
+                            <p class="text-xs text-rosewood/80 leading-relaxed">Foco principal: Controlar a oleosidade, diminuir poros dilatados e acalmar vermelhidões. Ideal para peles oleosas ou com acne.</p>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        // State Variables
+        let currentCategory = 'Todos';
+        let searchQuery = '';
+        let activeModalArticleId = null;
+        let quizAnswers = { skin: '', goal: '' };
+
+        // Initialize App on DOM Load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderPosts();
+            renderProducts('todos');
+            updateSavedCount();
+        });
+
+        // Helper smooth scroll to sections
+        function scrollToSection(sectionId) {
+            const el = document.getElementById(sectionId);
+            if(el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Render Scientific Products Showcase
+        function renderProducts(filterCategory = 'todos') {
+            const grid = document.getElementById('products-grid');
+            if(!grid) return;
+            grid.innerHTML = '';
+
+            const filtered = topProducts.filter(p => filterCategory === 'todos' || p.category === filterCategory);
+
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl p-5 border border-brand-100 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group";
+                card.innerHTML = `
+                    <div>
+                        <div class="relative h-44 rounded-xl overflow-hidden mb-4 bg-brand-50">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-2 left-2 bg-rosewood text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                                ${p.badge}
+                            </span>
+                            <span class="absolute bottom-2 right-2 bg-white/90 backdrop-blur-md text-amber-600 font-bold text-xs px-2 py-0.5 rounded-md flex items-center shadow-sm">
+                                <i class="fa-solid fa-star text-amber-400 mr-1 text-[10px]"></i> ${p.rating}
+                            </span>
+                        </div>
+
+                        <span class="text-[11px] font-bold text-brand-600 tracking-wider uppercase">${p.brand}</span>
+                        <h4 class="font-serif text-base font-bold text-rosewood mb-1 leading-snug">${p.name}</h4>
+                        <p class="text-[11px] text-amber-700 font-semibold mb-3 flex items-center gap-1">
+                            <i class="fa-solid fa-ribbon text-amber-500"></i> ${p.award}
+                        </p>
+
+                        <div class="bg-brand-50/60 p-3 rounded-xl mb-4 border border-brand-100/70">
+                            <p class="text-[11px] text-rosewood/80 line-clamp-2"><strong>Ativos:</strong> ${p.activeIngredients}</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-brand-100 flex items-center justify-between">
+                        <span class="text-[11px] text-rosewood/50"><i class="fa-solid fa-check-circle text-emerald-500 mr-1"></i>Testado Dermatologicamente</span>
+                        <button onclick="openProductModal('${p.id}')" class="bg-brand-500 hover:bg-brand-600 text-white text-xs font-bold px-3.5 py-1.5 rounded-full transition-all flex items-center gap-1">
+                            <span>Ver Dossiê</span>
+                            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterProducts(category) {
+            document.querySelectorAll('.product-tab').forEach(tab => {
+                tab.className = "product-tab bg-white text-rosewood hover:bg-brand-100 border border-brand-200 px-4 py-1.5 rounded-full text-xs font-semibold transition-all";
+            });
+            if (event && event.target) {
+                event.target.className = "product-tab active-tab bg-rosewood text-white px-4 py-1.5 rounded-full text-xs font-semibold shadow-sm transition-all";
+            }
+            renderProducts(category);
+        }
+
+        function openProductModal(productId) {
+            const product = topProducts.find(p => p.id === productId);
+            if(!product) return;
+
+            const modalContent = document.getElementById('product-modal-content');
+            modalContent.innerHTML = `
+                <div class="flex items-center space-x-2 text-xs font-bold text-brand-600 uppercase tracking-wider mb-2">
+                    <i class="fa-solid fa-flask"></i> Dossiê Científico de Produto
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-rosewood mb-1">${product.name}</h3>
+                <p class="text-xs font-bold text-amber-600 mb-4"><i class="fa-solid fa-award mr-1"></i> ${product.award}</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+                    <div class="bg-brand-50 p-3 rounded-xl text-center border border-brand-100">
+                        <span class="block text-[10px] text-rosewood/60 font-medium">Avaliação Clínica</span>
+                        <span class="font-bold text-base text-rosewood">${product.rating} / 5.0</span>
+                    </div>
+                    <div class="bg-brand-50 p-3 rounded-xl text-center border border-brand-100">
+                        <span class="block text-[10px] text-rosewood/60 font-medium">Testes In-Vivo</span>
+                        <span class="font-bold text-base text-rosewood">${product.reviewsCount}+ Pacientes</span>
+                    </div>
+                    <div class="bg-brand-50 p-3 rounded-xl text-center border border-brand-100">
+                        <span class="block text-[10px] text-rosewood/60 font-medium">Marca</span>
+                        <span class="font-bold text-base text-rosewood">${product.brand}</span>
+                    </div>
+                </div>
+
+                <div class="space-y-4 text-xs text-rosewood/80">
+                    <div class="p-4 bg-cream rounded-2xl border border-brand-100">
+                        <h4 class="font-bold text-rosewood text-sm mb-1 flex items-center gap-1.5">
+                            <i class="fa-solid fa-dna text-brand-500"></i> Ativos & Formulação Química
+                        </h4>
+                        <p>${product.activeIngredients}</p>
+                    </div>
+
+                    <div class="p-4 bg-brand-50/50 rounded-2xl border border-brand-100">
+                        <h4 class="font-bold text-rosewood text-sm mb-1 flex items-center gap-1.5">
+                            <i class="fa-solid fa-book-journal-whills text-brand-500"></i> Embasamento Científico & Mecanismo
+                        </h4>
+                        <p class="leading-relaxed">${product.scientificSummary}</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="p-3.5 bg-white rounded-xl border border-brand-200">
+                            <h5 class="font-bold text-rosewood text-[11px] mb-1">🎯 Indicado Para:</h5>
+                            <p class="text-[11px]">${product.indicatedFor}</p>
+                        </div>
+                        <div class="p-3.5 bg-white rounded-xl border border-brand-200">
+                            <h5 class="font-bold text-rosewood text-[11px] mb-1">✨ Modo de Uso Recomendado:</h5>
+                            <p class="text-[11px]">${product.howToUse}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-brand-100 flex items-center justify-between">
+                    <button onclick="showToast('Produto adicionado ao seu guia salvo!'); closeProductModal();" class="bg-rosewood hover:bg-rosewood/90 text-white font-bold text-xs px-5 py-2.5 rounded-full transition-all shadow-md">
+                        <i class="fa-solid fa-bookmark mr-1.5"></i> Salvar Dossiê
+                    </button>
+                    <button onclick="closeProductModal(); scrollToSection('quiz-section');" class="text-brand-600 font-bold text-xs hover:underline">
+                        Verificar compatibilidade no Quiz →
+                    </button>
+                </div>
+            `;
+
+            const modal = document.getElementById('product-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProductModal() {
+            const modal = document.getElementById('product-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Filter by Category
+        function filterCategory(category) {
+            currentCategory = category;
+            
+            // Update UI Button active states
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                if(btn.textContent.trim().includes(category) || (category === 'Todos' && btn.textContent.trim().includes('Todos'))) {
+                    btn.className = 'category-btn active bg-brand-500 text-white font-semibold px-5 py-2.5 rounded-full shadow-sm whitespace-nowrap transition-all hover:opacity-90';
+                } else {
+                    btn.className = 'category-btn bg-white hover:bg-brand-100 text-rosewood font-medium px-5 py-2.5 rounded-full border border-brand-200 whitespace-nowrap transition-all';
+                }
+            });
+
+            renderPosts();
+        }
+
+        // Search Input Handlers
+        function handleSearch() {
+            searchQuery = document.getElementById('search-input').value.toLowerCase().trim();
+            renderPosts();
+        }
+
+        function handleSearchMobile() {
+            searchQuery = document.getElementById('search-input-mobile').value.toLowerCase().trim();
+            renderPosts();
+        }
+
+        function resetFilters() {
+            currentCategory = 'Todos';
+            searchQuery = '';
+            const desktopSearch = document.getElementById('search-input');
+            const mobileSearch = document.getElementById('search-input-mobile');
+            if(desktopSearch) desktopSearch.value = '';
+            if(mobileSearch) mobileSearch.value = '';
+            filterCategory('Todos');
+        }
+
+        // Render Posts Grid
+        function renderPosts() {
+            const grid = document.getElementById('posts-grid');
+            const noResults = document.getElementById('no-results');
+            const counter = document.getElementById('posts-counter');
+            if(!grid) return;
+            grid.innerHTML = '';
+
+            const filtered = articles.filter(post => {
+                const matchesCategory = (currentCategory === 'Todos') || (post.category === currentCategory);
+                const matchesSearch = post.title.toLowerCase().includes(searchQuery) || 
+                                      post.excerpt.toLowerCase().includes(searchQuery) ||
+                                      post.category.toLowerCase().includes(searchQuery);
+                return matchesCategory && matchesSearch;
+            });
+
+            // Update Counter Text
+            if(counter) counter.textContent = `Exibindo ${filtered.length} artigo${filtered.length !== 1 ? 's' : ''}`;
+
+            if(filtered.length === 0) {
+                if(noResults) noResults.classList.remove('hidden');
+                grid.classList.add('hidden');
+                return;
+            } else {
+                if(noResults) noResults.classList.add('hidden');
+                grid.classList.remove('hidden');
+            }
+
+            filtered.forEach(post => {
+                const card = document.createElement('article');
+                card.className = "bg-white rounded-3xl overflow-hidden border border-brand-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group";
+                
+                card.innerHTML = `
+                    <div class="relative h-52 overflow-hidden cursor-pointer" onclick="openPostModal(${post.id})">
+                        <img src="${post.image}" alt="${post.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-brand-700 text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
+                            ${post.category}
+                        </span>
+                        <button onclick="event.stopPropagation(); toggleBookmark(${post.id})" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 hover:bg-white backdrop-blur-md flex items-center justify-center text-rosewood hover:text-brand-500 shadow-sm transition-all">
+                            <i class="${post.isSaved ? 'fa-solid text-brand-500' : 'fa-regular'} fa-bookmark text-xs"></i>
+                        </button>
+                    </div>
+
+                    <div class="p-6 flex flex-col flex-grow">
+                        <div class="flex items-center space-x-2 text-[11px] text-rosewood/50 mb-2 font-medium">
+                            <span><i class="fa-regular fa-calendar mr-1"></i> ${post.date}</span>
+                            <span>•</span>
+                            <span><i class="fa-regular fa-clock mr-1"></i> ${post.readTime}</span>
+                        </div>
+
+                        <h3 onclick="openPostModal(${post.id})" class="font-serif text-lg font-bold text-rosewood mb-2.5 hover:text-brand-600 transition-colors cursor-pointer line-clamp-2 leading-snug">
+                            ${post.title}
+                        </h3>
+
+                        <p class="text-rosewood/70 text-xs line-clamp-3 mb-6 leading-relaxed font-normal">
+                            ${post.excerpt}
+                        </p>
+
+                        <div class="mt-auto pt-4 border-t border-brand-100 flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <img src="${post.authorImg}" alt="${post.author}" class="w-7 h-7 rounded-full object-cover">
+                                <span class="text-xs font-semibold text-rosewood">${post.author}</span>
+                            </div>
+
+                            <button onclick="toggleLike(${post.id})" class="flex items-center space-x-1 text-xs font-semibold ${post.isLiked ? 'text-brand-500' : 'text-rosewood/50 hover:text-brand-500'} transition-colors">
+                                <i class="${post.isLiked ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+                                <span>${post.likes}</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        // Like & Bookmark Functionalities
+        function toggleLike(id) {
+            const post = articles.find(a => a.id === id);
+            if(post) {
+                post.isLiked = !post.isLiked;
+                post.likes += post.isLiked ? 1 : -1;
+                renderPosts();
+                showToast(post.isLiked ? 'Artigo curtido com sucesso!' : 'Curtida removida.');
+                if(activeModalArticleId === id) {
+                    updateModalActionButtons(post);
+                }
+            }
+        }
+
+        function toggleBookmark(id) {
+            const post = articles.find(a => a.id === id);
+            if(post) {
+                post.isSaved = !post.isSaved;
+                renderPosts();
+                updateSavedCount();
+                showToast(post.isSaved ? 'Artigo salvo nos seus favoritos!' : 'Artigo removido dos salvos.');
+                if(activeModalArticleId === id) {
+                    updateModalActionButtons(post);
+                }
+            }
+        }
+
+        function updateSavedCount() {
+            const count = articles.filter(a => a.isSaved).length;
+            const savedElem = document.getElementById('saved-count');
+            if(savedElem) savedElem.textContent = count;
+        }
+
+        // Post Reader Modal Functions
+        function openPostModal(id) {
+            const post = articles.find(a => a.id === id);
+            if(!post) return;
+
+            activeModalArticleId = id;
+            const container = document.getElementById('modal-content-body');
+
+            container.innerHTML = `
+                <div class="relative h-64 sm:h-80 -mx-6 sm:-mx-10 rounded-t-3xl overflow-hidden mb-6">
+                    <img src="${post.image}" alt="${post.title}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6 text-white">
+                        <span class="bg-brand-500 text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">
+                            ${post.category}
+                        </span>
+                        <h2 class="font-serif text-xl sm:text-3xl font-bold leading-tight">${post.title}</h2>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pb-6 border-b border-brand-100 mb-6">
+                    <div class="flex items-center space-x-3">
+                        <img src="${post.authorImg}" alt="${post.author}" class="w-10 h-10 rounded-full object-cover ring-2 ring-brand-200">
+                        <div>
+                            <h4 class="text-xs font-bold text-rosewood">${post.author}</h4>
+                            <p class="text-[11px] text-rosewood/50">${post.authorRole}</p>
+                        </div>
+                    </div>
+                    <div class="text-right text-xs text-rosewood/50">
+                        <p><i class="fa-regular fa-calendar mr-1"></i> ${post.date}</p>
+                        <p><i class="fa-regular fa-clock mr-1"></i> ${post.readTime}</p>
+                    </div>
+                </div>
+
+                <div class="prose max-w-none text-rosewood">
+                    ${post.content}
+                </div>
+            `;
+
+            updateModalActionButtons(post);
+
+            const modal = document.getElementById('post-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePostModal() {
+            const modal = document.getElementById('post-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'auto';
+            activeModalArticleId = null;
+        }
+
+        function updateModalActionButtons(post) {
+            const likeBtn = document.getElementById('modal-like-btn');
+            const likeCount = document.getElementById('modal-like-count');
+            const saveBtn = document.getElementById('modal-save-btn');
+
+            if(likeCount) likeCount.textContent = post.likes;
+            
+            if(likeBtn) {
+                if(post.isLiked) {
+                    likeBtn.className = "flex items-center space-x-1.5 text-xs font-semibold px-4 py-2 rounded-full bg-brand-500 text-white transition-all shadow-sm";
+                } else {
+                    likeBtn.className = "flex items-center space-x-1.5 text-xs font-semibold px-4 py-2 rounded-full bg-white border border-brand-200 text-rosewood hover:text-brand-500 transition-all";
+                }
+            }
+
+            if(saveBtn) {
+                if(post.isSaved) {
+                    saveBtn.className = "flex items-center space-x-1.5 text-xs font-semibold px-4 py-2 rounded-full bg-rosewood text-white transition-all shadow-sm";
+                    saveBtn.querySelector('span').textContent = "Salvo";
+                } else {
+                    saveBtn.className = "flex items-center space-x-1.5 text-xs font-semibold px-4 py-2 rounded-full bg-white border border-brand-200 text-rosewood hover:text-brand-500 transition-all";
+                    saveBtn.querySelector('span').textContent = "Salvar";
+                }
+            }
+        }
+
+        function toggleModalLike() {
+            if(activeModalArticleId) toggleLike(activeModalArticleId);
+        }
+
+        function toggleModalBookmark() {
+            if(activeModalArticleId) toggleBookmark(activeModalArticleId);
+        }
+
+        function copyArticleLink() {
+            const tempInput = document.createElement('input');
+            tempInput.value = window.location.href;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast('Link do artigo copiado para a área de transferência!');
+        }
+
+        // Saved Bookmarks List Modal
+        function toggleBookmarksModal() {
+            const modal = document.getElementById('bookmarks-modal');
+            const isHidden = modal.classList.contains('opacity-0');
+
+            if(isHidden) {
+                renderBookmarksList();
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+            } else {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        function renderBookmarksList() {
+            const container = document.getElementById('bookmarks-list');
+            const savedPosts = articles.filter(a => a.isSaved);
+
+            if(savedPosts.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-rosewood/60">
+                        <i class="fa-regular fa-bookmark text-3xl mb-2 text-brand-300 block"></i>
+                        <p class="text-xs">Você ainda não salvou nenhum artigo.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = savedPosts.map(post => `
+                <div class="flex items-center justify-between p-3 bg-brand-50/50 rounded-2xl border border-brand-100 hover:bg-brand-50 transition-colors">
+                    <div class="flex items-center space-x-3 cursor-pointer overflow-hidden" onclick="toggleBookmarksModal(); openPostModal(${post.id})">
+                        <img src="${post.image}" class="w-12 h-12 rounded-xl object-cover flex-shrink-0">
+                        <div class="truncate">
+                            <h4 class="text-xs font-bold text-rosewood truncate">${post.title}</h4>
+                            <span class="text-[10px] text-brand-600 font-semibold">${post.category}</span>
+                        </div>
+                    </div>
+                    <button onclick="toggleBookmark(${post.id}); renderBookmarksList();" class="text-rosewood/40 hover:text-red-500 p-2 text-xs">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Quiz Interactive Logic
+        function selectQuizOption(key, value) {
+            quizAnswers[key] = value;
+            document.getElementById('quiz-step-1').classList.add('hidden');
+            document.getElementById('quiz-step-2').classList.remove('hidden');
+        }
+
+        function finishQuiz(goalValue) {
+            quizAnswers.goal = goalValue;
+            document.getElementById('quiz-step-2').classList.add('hidden');
+            
+            const resultBox = document.getElementById('quiz-result');
+            const resultTitle = document.getElementById('quiz-result-title');
+            const resultText = document.getElementById('quiz-result-text');
+
+            resultBox.classList.remove('hidden');
+
+            if(quizAnswers.skin === 'oleosa') {
+                resultTitle.textContent = "Rotina Equilíbrio & Matte";
+                resultText.textContent = "Para o seu tipo de pele, o foco principal é o controle de oleosidade sem ressecar. Ativos perfeitos: Niacinamida, Ácido Salicílico e texturas em Gel-Creme.";
+            } else if(quizAnswers.skin === 'seca') {
+                resultTitle.textContent = "Rotina Nutrição & Glow";
+                resultText.textContent = "Sua pele precisa de restauração da barreira lipídica. Recomendamos cremes ricos em Ceramidas, Ácido Hialurônico e Óleos Faciais Noturnos.";
+            } else {
+                resultTitle.textContent = "Rotina Proteção & Revitalização";
+                resultText.textContent = "Sua pele responde melhor a cuidados suaves com antioxidantes como Vitamina C, Pantenol e protetores solares fluidos com acabamento natural.";
+            }
+        }
+
+        function restartQuiz() {
+            quizAnswers = { skin: '', goal: '' };
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.getElementById('quiz-step-1').classList.remove('hidden');
+        }
+
+        function openRecommendedArticle() {
+            openPostModal(quizAnswers.skin === 'oleosa' ? 6 : 1);
+        }
+
+        // Newsletter Form Handler
+        function handleNewsletter(e) {
+            e.preventDefault();
+            const input = document.getElementById('newsletter-email');
+            if(input && input.value) {
+                showToast('Inscrição realizada! Bem-vinda ao clube de beleza Lumina & Glow ✨');
+                input.value = '';
+            }
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Toast Notification Function
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            if(toastMessage && toast) {
+                toastMessage.textContent = message;
+                toast.classList.remove('translate-y-20', 'opacity-0');
+
+                setTimeout(() => {
+                    toast.classList.add('translate-y-20', 'opacity-0');
+                }, 3500);
+            }
+        }
+    </script>
+</body>
+</html>
